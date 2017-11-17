@@ -2,13 +2,13 @@
   "name": "leshko/la-symfony-ext-bundle",
   "type": "additional",
   "description": "Symfony patch",
-  "homepage": "https://github.com/andriyleahko/LAFramework.git",
+  "homepage": "https://github.com/andriyleahko/symfony-ext",
   "license": "MIT",
   "authors": [
     {
       "name": "Andriy Leshko",
       "email": "andriyleshko@gmail.com",
-      "homepage": "https://github.com/andriyleahko/LAFramework.git",
+      "homepage": "https://github.com/andriyleahko/symfony-ext",
       "role": "Developer"
     }
   ],
