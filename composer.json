@@ -1,0 +1,25 @@
+{
+  "name": "leshko/la-symfony-ext-bundle",
+  "type": "additional",
+  "description": "Symfony patch",
+  "homepage": "https://github.com/andriyleahko/LAFramework.git",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andriy Leshko",
+      "email": "andriyleshko@gmail.com",
+      "homepage": "https://github.com/andriyleahko/LAFramework.git",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.5.0"
+  },
+  "autoload":{
+    "psr-0":{
+      "LASymfonyExtBundle":""
+    }
+  }
+
+}

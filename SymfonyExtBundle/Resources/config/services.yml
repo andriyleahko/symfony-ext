@@ -1,0 +1,22 @@
+parameters:
+      extract-options:
+          date: short
+          cacheBrowserFile : 0
+
+
+services:
+
+      la.symfony-ext.validator:
+          class: LA\SymfonyExtBundle\Validator\Validator
+          arguments: ['@service_container']
+          public: true
+
+      la.symfony-ext.entity-properties-extractor.data:
+          class: LA\SymfonyExtBundle\EntityPropertiesExtractor\EntityPropertiesExtractor
+          arguments: ['%extract-options%','%serializer%']
+          public: true
+
+      la.symfony-ext.entity-saver:
+          class: LA\SymfonyExtBundle\EntitySaver\EntitySaver
+          arguments: ['@service_container']
+          public: true
