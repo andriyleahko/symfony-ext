@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace LA\SymfonyExtBundle\EntityPropertiesExtractor;
+namespace SymfonyExtBundle\EntityPropertiesExtractor;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;

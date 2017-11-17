@@ -1,6 +1,6 @@
 <?php
 
-namespace LA\SymfonyExtBundle;
+namespace SymfonyExtBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

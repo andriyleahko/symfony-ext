@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LA\SymfonyExtBundle\Validator;
+namespace SymfonyExtBundle\Validator;
 
 
 

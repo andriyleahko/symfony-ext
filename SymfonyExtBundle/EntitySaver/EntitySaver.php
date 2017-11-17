@@ -1,6 +1,6 @@
 <?php
 
-namespace LA\SymfonyExtBundle\EntitySaver;
+namespace SymfonyExtBundle\EntitySaver;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
