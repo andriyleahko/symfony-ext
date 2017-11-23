@@ -32,12 +32,25 @@ class EntityPropertiesExtractor {
 
     /**
      *
-     * @param $options
      * @param $serializeRule
      */
-    public function __construct($options, $serializeRule ) {
-        $this->options = $options;
+    public function __construct($serializeRule ) {
+
         $this->serializeRule = $serializeRule;
+        $this->options = [
+            'function_filter_var' => function($value, $field) {
+                return $value;
+            }
+        ];
+    }
+
+    /**
+     * @param $options
+     * @return $this
+     */
+    public function setOption($options) {
+        $this->options = $options;
+        return $this;
     }
 
 

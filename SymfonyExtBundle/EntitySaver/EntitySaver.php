@@ -25,12 +25,24 @@ class EntitySaver {
 
     /**
      * EntitySaver constructor.
-     * @param $options
      * @param Container $container
      */
-    public function __construct($options, Container $container) {
-        $this->options = $options;
+    public function __construct(Container $container) {
         $this->container = $container;
+        $this->options = [
+            'function_filter_var' => function($value, $field) {
+                return $value;
+            }
+        ];
+    }
+
+    /**
+     * @param $options
+     * @return $this
+     */
+    public function setOption($options) {
+        $this->options = $options;
+        return $this;
     }
 
     /**

@@ -8,10 +8,10 @@ services:
 
       la.symfony-ext.entity-properties-extractor.data:
           class: SymfonyExtBundle\EntityPropertiesExtractor\EntityPropertiesExtractor
-          arguments: ['%extract-options%','%serializer%']
+          arguments: ['%serializer%']
           public: true
 
       la.symfony-ext.entity-saver:
           class: SymfonyExtBundle\EntitySaver\EntitySaver
-          arguments: ['%saver-options%','@service_container']
+          arguments: ['@service_container']
           public: true
