@@ -1,8 +1,3 @@
-parameters:
-      extract-options:
-          date: short
-          cacheBrowserFile : 0
-
 
 services:
 
@@ -18,5 +13,5 @@ services:
 
       la.symfony-ext.entity-saver:
           class: SymfonyExtBundle\EntitySaver\EntitySaver
-          arguments: ['@service_container']
+          arguments: ['%saver-options%','@service_container']
           public: true

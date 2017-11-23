@@ -89,11 +89,11 @@ class EntityPropertiesExtractor {
                             }
                         }
 
-                        $result[$fp] = $this->normalizeResult($obj);
+                        $result[$fp] = $this->normalizeResult($obj, $fp);
 
 
                     } else {
-                        $result[$field] = $this->normalizeResult($e->{'get' . ucfirst($field)}());
+                        $result[$field] = $this->normalizeResult($e->{'get' . ucfirst($field)}(), $field);
 
                     }
                 }
@@ -109,21 +109,15 @@ class EntityPropertiesExtractor {
     }
 
     /**
-     *
-     * @param  $value
-     * @return string
+     * @param $value
+     * @param $field
+     * @return mixed
      */
-    private function normalizeResult($value) {
+    private function normalizeResult($value, $field) {
 
-        if (is_string($value) and strstr($value,'http')) {
-            return $value . '?' . time();
-        }
+        return call_user_func_array($this->options['function_filter_var'],[$value, $field]);
 
-        if ($value instanceof \DateTime) {
-            return date('Y-m-d',$value->getTimestamp());
-        }
 
-        return $value;
     }
 
 

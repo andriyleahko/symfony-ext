@@ -17,14 +17,19 @@ class EntitySaver {
      */
     public $container;
 
-
+    /**
+     * @var
+     */
+    public $options;
 
 
     /**
-     *
+     * EntitySaver constructor.
+     * @param $options
      * @param Container $container
      */
-    public function __construct(Container $container) {
+    public function __construct($options, Container $container) {
+        $this->options = $options;
         $this->container = $container;
     }
 
@@ -101,11 +106,8 @@ class EntitySaver {
      */
     private function normalizeValue($method,$value) {
 
-        if (strstr(strtolower($method), 'date')) {
-            return (!$value) ? $value : new \DateTime($value);
-        }
+        return call_user_func_array($this->options['function_filter_var'],[$value, $method]);
 
-        return $value;
 
     }
 
