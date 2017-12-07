@@ -96,17 +96,18 @@ class EntityPropertiesExtractor {
                         foreach ($fieldPart as $fp) {
                             if ($obj) {
                                 $method = 'get' . ucfirst($fp);
+                                $objNext = $obj;
                                 $obj = $obj->{$method}();
                             } else {
                                 break;
                             }
                         }
 
-                        $result[$fp] = $this->normalizeResult($obj, $fp);
+                        $result[$fp] = $this->normalizeResult($obj, $fp, $objNext);
 
 
                     } else {
-                        $result[$field] = $this->normalizeResult($e->{'get' . ucfirst($field)}(), $field);
+                        $result[$field] = $this->normalizeResult($e->{'get' . ucfirst($field)}(), $field, $e);
 
                     }
                 }
@@ -124,11 +125,12 @@ class EntityPropertiesExtractor {
     /**
      * @param $value
      * @param $field
+     * @param $obj
      * @return mixed
      */
-    private function normalizeResult($value, $field) {
+    private function normalizeResult($value, $field, $obj) {
 
-        return call_user_func_array($this->options['function_filter_var'],[$value, $field]);
+        return call_user_func_array($this->options['function_filter_var'],[$value, $field, $obj]);
 
 
     }

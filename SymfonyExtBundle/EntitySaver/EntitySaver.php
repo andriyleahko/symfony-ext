@@ -61,7 +61,7 @@ class EntitySaver {
 
             $method = $this->getMethodName($key);
             if (method_exists($entity,$method)) {
-                $entity->{$method}($this->normalizeValue($method,$value));
+                $entity->{$method}($this->normalizeValue($method,$value,$entity));
                 $saveFields[] = $key;
             } else {
                 $notField[] = $key;
@@ -111,14 +111,14 @@ class EntitySaver {
     }
 
     /**
-     *
-     * @param string $method
-     * @param string $value
-     * @return \DateTime
+     * @param $method
+     * @param $value
+     * @param $obj
+     * @return mixed
      */
-    private function normalizeValue($method,$value) {
+    private function normalizeValue($method,$value,$obj) {
 
-        return call_user_func_array($this->options['function_filter_var'],[$value, $method]);
+        return call_user_func_array($this->options['function_filter_var'],[$value, $method,$obj]);
 
 
     }
