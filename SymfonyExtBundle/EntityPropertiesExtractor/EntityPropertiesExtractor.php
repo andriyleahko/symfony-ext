@@ -67,11 +67,11 @@ class EntityPropertiesExtractor {
         $multi = true;
 
         if (!$entity) {
-            return [];
+            return null;
         }
 
         if (!$fields) {
-            return [];
+            return null;
         }
 
         if (!is_array($entity) and !$entity instanceof ArrayCollection and !$entity instanceof PersistentCollection) {
