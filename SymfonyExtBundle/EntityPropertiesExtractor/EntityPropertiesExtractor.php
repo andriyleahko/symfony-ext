@@ -111,7 +111,7 @@ class EntityPropertiesExtractor {
 
                 if (is_array($field)) {
 
-                    $eInner = (strstr($k,':user') and $this->user instanceof User) ? $e->{'get' . ucfirst($k)}($this->user) : $e->{'get' . ucfirst($k)}();
+                    $eInner = (strstr($k,':user') and $this->user instanceof User) ? $e->{'get' . ucfirst(str_replace(':user','',$k))}($this->user) : $e->{'get' . ucfirst($k)}();
 
                     $result[str_replace(':user','',$k)] = $this->getNeed($eInner,$field);
 
@@ -123,7 +123,7 @@ class EntityPropertiesExtractor {
                             if ($obj) {
                                 $method = 'get' . ucfirst($fp);
                                 $objNext = $obj;
-                                $obj = (strstr($fp,':user') and $this->user instanceof User) ? $obj->{$method}($this->user) : $obj->{$method}();
+                                $obj = (strstr($fp,':user') and $this->user instanceof User) ? $obj->{str_replace(':user','',$method)}($this->user) : $obj->{$method}();
                             } else {
                                 break;
                             }
@@ -133,7 +133,7 @@ class EntityPropertiesExtractor {
 
 
                     } else {
-                        $aux = (strstr($field,':user') and $this->user instanceof User) ? $e->{'get' . ucfirst($field)}($this->user) : $e->{'get' . ucfirst($field)}();
+                        $aux = (strstr($field,':user') and $this->user instanceof User) ? $e->{'get' . ucfirst(str_replace(':user','',$field))}($this->user) : $e->{'get' . ucfirst($field)}();
                         $result[str_replace(':user','',$field)] = $this->normalizeResult($aux, str_replace(':user','',$field), $e);
 
                     }
