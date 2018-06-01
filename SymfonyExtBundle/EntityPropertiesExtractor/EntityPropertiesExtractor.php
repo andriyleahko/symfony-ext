@@ -12,7 +12,6 @@ use Doctrine\ORM\PersistentCollection;
 use AppBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 /**
@@ -45,17 +44,14 @@ class EntityPropertiesExtractor {
      */
     public $user;
 
-    /** @var  TokenStorageInterface */
-    private $tokenStorage;
 
 
     /**
      * EntityPropertiesExtractor constructor.
      * @param $serializeRule
      * @param Container $container
-     * @param TokenStorageInterface $storage
      */
-    public function __construct($serializeRule,Container $container,TokenStorageInterface $storage ) {
+    public function __construct($serializeRule,Container $container) {
 
         $this->serializeRule = $serializeRule;
         $this->options = [
@@ -64,8 +60,7 @@ class EntityPropertiesExtractor {
             }
         ];
         $this->container = $container;
-        $this->tokenStorage = $storage;
-        $this->user = ($this->container->get('security.token_storage')->getToken()) ? $this->container->get('security.token_storage')->getToken()->getUser() : null;
+        $this->user = $this->container->get('user.manager')->getUserFromJwt();
     }
 
     /**
@@ -84,8 +79,6 @@ class EntityPropertiesExtractor {
      * @return array|mixed|null
      */
     public function getNeed($entity, $fields) {
-
-        $this->user = ($this->tokenStorage->getToken()) ? $this->tokenStorage->getToken()->getUser() : null;
 
         $fields = (is_array($fields)) ? $fields : $this->serializeRule[$fields];
         $resultAll = [];
