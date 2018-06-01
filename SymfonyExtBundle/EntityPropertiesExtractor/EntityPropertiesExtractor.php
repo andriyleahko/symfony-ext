@@ -63,6 +63,7 @@ class EntityPropertiesExtractor {
                 return $value;
             }
         ];
+        $this->container = $container;
         $this->tokenStorage = $storage;
         $this->user = ($this->container->get('security.token_storage')->getToken()) ? $this->container->get('security.token_storage')->getToken()->getUser() : null;
     }
