@@ -9,6 +9,10 @@ namespace SymfonyExtBundle\EntityPropertiesExtractor;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
+use AppBundle\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 /**
@@ -17,6 +21,7 @@ use Doctrine\ORM\PersistentCollection;
  * @author andriy
  */
 class EntityPropertiesExtractor {
+
 
     /**
      *
@@ -29,12 +34,28 @@ class EntityPropertiesExtractor {
      */
     public $options;
 
-
     /**
      *
-     * @param $serializeRule
+     * @var Container
      */
-    public function __construct($serializeRule ) {
+    public $container;
+
+    /**
+     * @var User
+     */
+    public $user;
+
+    /** @var  TokenStorageInterface */
+    private $tokenStorage;
+
+
+    /**
+     * EntityPropertiesExtractor constructor.
+     * @param $serializeRule
+     * @param Container $container
+     * @param TokenStorageInterface $storage
+     */
+    public function __construct($serializeRule,Container $container,TokenStorageInterface $storage ) {
 
         $this->serializeRule = $serializeRule;
         $this->options = [
@@ -42,6 +63,8 @@ class EntityPropertiesExtractor {
                 return $value;
             }
         ];
+        $this->tokenStorage = $storage;
+        $this->user = ($this->container->get('security.token_storage')->getToken()) ? $this->container->get('security.token_storage')->getToken()->getUser() : null;
     }
 
     /**
@@ -60,6 +83,8 @@ class EntityPropertiesExtractor {
      * @return array|mixed|null
      */
     public function getNeed($entity, $fields) {
+
+        $this->user = ($this->tokenStorage->getToken()) ? $this->tokenStorage->getToken()->getUser() : null;
 
         $fields = (is_array($fields)) ? $fields : $this->serializeRule[$fields];
         $resultAll = [];
@@ -85,9 +110,9 @@ class EntityPropertiesExtractor {
 
                 if (is_array($field)) {
 
-                    $eInner = $e->{'get' . ucfirst($k)}();
+                    $eInner = (strstr($k,':user') and $this->user instanceof User) ? $e->{'get' . ucfirst($k)}($this->user) : $e->{'get' . ucfirst($k)}();
 
-                    $result[$k] = $this->getNeed($eInner,$field);
+                    $result[str_replace(':user','',$k)] = $this->getNeed($eInner,$field);
 
                 } else {
                     if (strstr($field,'/')) {
@@ -97,17 +122,18 @@ class EntityPropertiesExtractor {
                             if ($obj) {
                                 $method = 'get' . ucfirst($fp);
                                 $objNext = $obj;
-                                $obj = $obj->{$method}();
+                                $obj = (strstr($fp,':user') and $this->user instanceof User) ? $obj->{$method}($this->user) : $obj->{$method}();
                             } else {
                                 break;
                             }
                         }
 
-                        $result[$fp] = $this->normalizeResult($obj, $fp, $objNext);
+                        $result[str_replace(':user','',$fp)] = $this->normalizeResult($obj, str_replace(':user','',$fp), $objNext);
 
 
                     } else {
-                        $result[$field] = $this->normalizeResult($e->{'get' . ucfirst($field)}(), $field, $e);
+                        $aux = (strstr($field,':user') and $this->user instanceof User) ? $e->{'get' . ucfirst($field)}($this->user) : $e->{'get' . ucfirst($field)}();
+                        $result[str_replace(':user','',$field)] = $this->normalizeResult($aux, str_replace(':user','',$field), $e);
 
                     }
                 }

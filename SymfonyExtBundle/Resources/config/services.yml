@@ -8,7 +8,7 @@ services:
 
       la.symfony-ext.entity-properties-extractor.data:
           class: SymfonyExtBundle\EntityPropertiesExtractor\EntityPropertiesExtractor
-          arguments: ['%serializer%']
+          arguments: ['%serializer%','@service_container','@security.token_storage']
           public: true
 
       la.symfony-ext.entity-saver:
