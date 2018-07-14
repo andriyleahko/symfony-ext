@@ -85,6 +85,10 @@ class EntityPropertiesExtractor {
 
         $multi = true;
 
+        if (is_array($entity) and count($entity) == 0) {
+            return [];
+        }
+
         if (!$entity) {
             return null;
         }
